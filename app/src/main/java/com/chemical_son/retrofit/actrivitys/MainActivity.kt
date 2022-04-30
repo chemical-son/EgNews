@@ -2,9 +2,11 @@ package com.chemical_son.retrofit.actrivitys
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ScrollView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.chemical_son.retrofit.R
 import com.chemical_son.retrofit.adapter.PostsAdapter
 import com.chemical_son.retrofit.dataModel.TopHeadlinesResponse
@@ -17,13 +19,21 @@ import retrofit2.Response
 class MainActivity : AppCompatActivity() {
     lateinit var postsAdapter: PostsAdapter
     lateinit var recyclerView: RecyclerView
+    lateinit var swipeRefreshLayout: SwipeRefreshLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         recyclerView = findViewById(R.id.recycle_view)
+        swipeRefreshLayout = findViewById(R.id.scrollView)
 
         getData()
+
+        swipeRefreshLayout.setOnRefreshListener {
+            getData()
+            swipeRefreshLayout.isRefreshing = false
+        }
+
     }
 
     private fun getData() {
